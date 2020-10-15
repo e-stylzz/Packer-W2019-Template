@@ -1,0 +1,61 @@
+{
+	"builders": [
+		{
+			"type": "vsphere-iso",
+
+			"vcenter_server": "{{user `vcenter_server`}}",
+			"insecure_connection": "true",
+			"username": "{{user `vsphere_username`}}",
+			"password": "{{user `vsphere_password`}}",
+
+			"datacenter": "{{user `datacenter`}}",
+			"cluster": "{{user `cluster`}}",
+			"host": "{{user `host`}}",
+			"folder": "{{user `folder`}}",
+
+			"convert_to_template": "true",
+			"boot_order": "disk,cdrom",
+
+			"communicator": "winrm",
+			"winrm_username": "{{user `winrm_username`}}",
+			"winrm_password": "{{user `winrm_password`}}",
+
+			"vm_name": "{{user `vm_name`}}",
+			"notes": "{{user `notes`}}",
+			"cpus": "2",
+			"ram": "4096",
+
+			"datastore": "{{user `datastore`}}",
+			"disk_controller_type": "lsilogic-sas",
+			"storage": {
+				"disk_size": "40960",
+				"disk_thin_provisioned": true
+			},
+
+			"network_adapters": [
+				{
+					"network": "{{user `network`}}",
+					"network_card": "e1000e"
+				}
+			],
+
+			"guest_os_type": "windows9Server64Guest",
+
+			"iso_paths": [
+				"[Data (1)] ISOs/SW_DVD9_Win_Server_STD_CORE_2019_1809.6_64Bit_English_DC_STD_MLF_X22-34397.ISO",
+				"[] /vmimages/tools-isoimages/windows.iso"
+			],
+			"floppy_files": ["./autounattend.xml", "scripts/vmtools.cmd", "scripts/step1.ps1"]
+		}
+	],
+	"provisioners": [
+		{
+			"type": "powershell",
+			"scripts": ["scripts/step2.ps1"]
+		},
+		{
+			"type": "windows-restart",
+			"restart_timeout": "30m"
+		}
+	]
+}

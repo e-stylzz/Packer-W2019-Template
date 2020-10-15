@@ -1,0 +1,15 @@
+{
+	"vcenter_server": "",
+	"vsphere_username": "",
+	"vsphere_password": "",
+	"datastore": "",
+	"host": "",
+	"datacenter": "",
+	"folder": "",
+	"cluster": "",
+	"network": "",
+	"winrm_username": "",
+	"winrm_password": "",
+	"vm_name": "",
+	"notes": ""
+}
