@@ -1,11 +1,7 @@
 <!--*************************************************
 Windows Server 2019 Answer File Generator
 Created using Windows AFG found at:
-;http://www.windowsafg.com
-
-Installation Notes
-Location: Lab
-Notes: Made with Packer
+http://www.windowsafg.com
 **************************************************-->
 
 <?xml version="1.0" encoding="utf-8"?>
@@ -66,9 +62,6 @@ Notes: Made with Packer
                 <AcceptEula>true</AcceptEula>
                 <FullName>Admin</FullName>
                 <Organization>Organization</Organization>
-                <!-- <ProductKey>
-                    <Key>SERIAL_HERE</Key>
-                </ProductKey> -->
             </UserData>
             <EnableFirewall>false</EnableFirewall>
         </component>
@@ -97,15 +90,6 @@ Notes: Made with Packer
     </settings>
 
     <settings pass="specialize">
-        <!-- <component name="Microsoft-Windows-Deployment" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <RunSynchronous>
-                <RunSynchronousCommand wcm:action="add">
-                    <Order>1</Order>
-                    <Path>a:\vmtools.cmd</Path>
-                    <WillReboot>Always</WillReboot>
-                </RunSynchronousCommand>
-            </RunSynchronous>
-        </component> -->
         <component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <InputLocale>0409:00000409</InputLocale>
             <SystemLocale>en-US</SystemLocale>
@@ -158,8 +142,27 @@ Notes: Made with Packer
                 </AdministratorPassword>
             </UserAccounts>
             <FirstLogonCommands>
-                <SynchronousCommand wcm:action="add">
+            <!-- Add some new shit and copy the vmtools command here and then test. -->
+            <SynchronousCommand wcm:action="add">
                     <Order>1</Order>
+                    <Description>Set Execution Policy 64 Bit</Description>
+                    <CommandLine>cmd.exe /c powershell -Command "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force"</CommandLine>
+                    <RequiresUserInput>true</RequiresUserInput>
+                </SynchronousCommand>
+                <SynchronousCommand wcm:action="add">
+                    <Order>2</Order>
+                    <Description>Set Execution Policy 32 Bit</Description>
+                    <CommandLine>C:\Windows\SysWOW64\cmd.exe /c powershell -Command "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force"</CommandLine>
+                    <RequiresUserInput>true</RequiresUserInput>
+                </SynchronousCommand>
+                <SynchronousCommand wcm:action="add">
+                    <CommandLine>cmd.exe /c a:\vmtools.cmd</CommandLine>
+                    <Order>3</Order>
+                    <Description>Install VMware Tools</Description>
+                </SynchronousCommand>
+                <!-- End of new stuff -->
+                <SynchronousCommand wcm:action="add">
+                    <Order>4</Order>
                     <CommandLine>powershell -ExecutionPolicy Bypass -File a:\step1.ps1</CommandLine>
                     <RequiresUserInput>true</RequiresUserInput>
                 </SynchronousCommand> 
