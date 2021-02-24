@@ -1,8 +1,9 @@
-$netprofile = Get-NetConnectionProfile
-Set-NetConnectionProfile -Name $netprofile.Name -NetworkCategory Private
+# Pretty sure this is covered in step 1
+# $netprofile = Get-NetConnectionProfile
+# Set-NetConnectionProfile -Name $netprofile.Name -NetworkCategory Private
 
 #disable Windows Firewalls
-Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
+Set-NetFirewallProfile -Profile Domain, Public, Private -Enabled False
 
 # Remove Desktop from This PC
 Remove-Item "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}"
@@ -56,7 +57,7 @@ Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advan
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "EnableAutoTray" -Value 0
 
 # Small taskbar & combine when full
-Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" -Name "TaskbarSmallIcons" -Value 1
+#Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" -Name "TaskbarSmallIcons" -Value 1
 #Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\" -Name "TaskbarGlomLevel" -Value 1
 
 # Disable hibernation
@@ -75,15 +76,3 @@ powercfg /change hibernate-timeout-dc 0
 
 # Disable password expiration for Administrator
 Set-LocalUser Administrator -PasswordNeverExpires $true
-
-# Configure PowerShell prompt
-$psprofile = @'
-Set-Location /
-function prompt {
-    Write-Host "[$(Get-Date -f 'HH:mm:ss')]" -ForegroundColor Yellow -NoNewline
-    " PS $($executionContext.SessionState.Path.CurrentLocation)$('>' * ($nestedPromptLevel + 1)) "
-}
-'@
-
-New-Item $PROFILE -ItemType File -Force
-Set-Content -Path $PROFILE -Value $psprofile

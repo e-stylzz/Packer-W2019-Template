@@ -19,7 +19,6 @@
 			"cpus": "2",
 			"ram": "4096",
 			"disk_controller_type": "lsilogic-sas",
-			// pvscsi ftw!
 			"storage": {
 				"disk_size": "40960",
 				"disk_thin_provisioned": true
@@ -29,7 +28,6 @@
 				{
 					"network": "{{user `network`}}",
 					"network_card": "e1000e"
-					// vmxnet3
 				}
 			],
 

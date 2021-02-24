@@ -48,14 +48,12 @@ Notes: Made with Packer
             </DiskConfiguration>
             <ImageInstall>
                 <OSImage>
-                    <!-- <InstallFrom>
+                    <InstallFrom>
                         <MetaData wcm:action="add">
                             <Key>/IMAGE/NAME</Key>
                             <Value>Windows Server 2019 SERVERDATACENTER</Value>
                         </MetaData>
-                    </InstallFrom> -->
-                    <!-- https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-setup-imageinstall-dataimage-installfrom-metadata-key -->
-            
+                    </InstallFrom>
                     <InstallTo>
                         <DiskID>0</DiskID>
                         <PartitionID>2</PartitionID>
@@ -68,9 +66,9 @@ Notes: Made with Packer
                 <AcceptEula>true</AcceptEula>
                 <FullName>Admin</FullName>
                 <Organization>Organization</Organization>
-                <ProductKey>
+                <!-- <ProductKey>
                     <Key>SERIAL_HERE</Key>
-                </ProductKey>
+                </ProductKey> -->
             </UserData>
             <EnableFirewall>false</EnableFirewall>
         </component>
@@ -99,7 +97,7 @@ Notes: Made with Packer
     </settings>
 
     <settings pass="specialize">
-        <component name="Microsoft-Windows-Deployment" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <!-- <component name="Microsoft-Windows-Deployment" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <RunSynchronous>
                 <RunSynchronousCommand wcm:action="add">
                     <Order>1</Order>
@@ -107,7 +105,7 @@ Notes: Made with Packer
                     <WillReboot>Always</WillReboot>
                 </RunSynchronousCommand>
             </RunSynchronous>
-        </component>
+        </component> -->
         <component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <InputLocale>0409:00000409</InputLocale>
             <SystemLocale>en-US</SystemLocale>
