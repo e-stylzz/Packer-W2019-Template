@@ -18,7 +18,7 @@
 
 			"cpus": "2",
 			"ram": "4096",
-			"disk_controller_type": "lsilogic-sas",
+			"disk_controller_type": "pvscsi",
 			"storage": {
 				"disk_size": "40960",
 				"disk_thin_provisioned": true
@@ -27,7 +27,7 @@
 			"network_adapters": [
 				{
 					"network": "{{user `network`}}",
-					"network_card": "e1000e"
+					"network_card": "vmxnet3"
 				}
 			],
 
@@ -42,13 +42,16 @@
 				"[Data (1)] ISOs/SW_DVD9_Win_Server_STD_CORE_2019_1809.6_64Bit_English_DC_STD_MLF_X22-34397.ISO",
 				"[] /vmimages/tools-isoimages/windows.iso"
 			],
-			"floppy_files": ["./autounattend.xml", "scripts/vmtools.cmd", "scripts/step1.ps1"]
+			"floppy_files": ["./autounattend.xml", "scripts/vmtools.cmd", "scripts/step1.ps1"],
+			"shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c Packer_Provisioning_Shutdown"
 		}
 	],
 	"provisioners": [
 		{
 			"type": "powershell",
-			"scripts": ["scripts/step2.ps1"]
+			"elevated_user": "{{user `winrm_username`}}",
+			"elevated_password": "{{user `winrm_password`}}",
+			"scripts": "{{user `script_files`}}"
 		},
 		{
 			"type": "windows-restart",

@@ -1,17 +1,17 @@
 $ErrorActionPreference = "Stop"
 
-# New Shit
-New-Item                                                                       `
-    -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Network\NewNetworkWindowOff" `
-    -Force
+# Switch network connection to private mode
+# Required for WinRM firewall rules
+$profile = Get-NetConnectionProfile
+Set-NetConnectionProfile -Name $profile.Name -NetworkCategory Private
 
-Set-NetConnectionProfile                                                       `
-    -InterfaceIndex (Get-NetConnectionProfile).InterfaceIndex                  `
-    -NetworkCategory Private
+# Enable Network Discovery
+netsh advfirewall firewall set privateprofile rule group="Network Discovery" new enable=Yes
 
-# Config WinRM service
-Set-Item WSMan:\localhost\Service\AllowUnencrypted -Value True
-Set-Item WSMan:\localhost\Service\Auth\Basic       -Value True
+# Enable WinRM service
+winrm quickconfig -quiet
+winrm set winrm/config/service '@{AllowUnencrypted="true"}'
+winrm set winrm/config/service/auth '@{Basic="true"}'
 
 # Reset auto logon count
 # https://docs.microsoft.com/en-us/windows-hardware/customize/desktop/unattend/microsoft-windows-shell-setup-autologon-logoncount#logoncount-known-issue
