@@ -7,9 +7,5 @@
 	"datacenter": "",
 	"folder": "",
 	"cluster": "",
-	"network": "",
-	"winrm_username": "",
-	"winrm_password": "",
-	"vm_name": "",
-	"notes": ""
+	"network": ""
 }
